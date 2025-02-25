@@ -8,19 +8,38 @@ namespace FabRaylibTemplate;
 
 public partial class Application
 {
-    private static readonly IFileService fileService = new BrowserFileService();
+    private static readonly IFileService fileService = CreateFileService();
+
+    private static IFileService CreateFileService()
+    {
+        return OperatingSystem.IsBrowser()
+            ? new BrowserFileService()
+            : new AvaloniaFileService();
+    }
 
     private static Texture2D logo;
     private static Texture2D loadedImage;
     private static bool imageLoaded = false;
     public static async Task Main()
     {
-        await JSHost.ImportAsync("interop.js", "../interop.js");
+        if (OperatingSystem.IsBrowser())
+            await JSHost.ImportAsync("interop.js", "../interop.js");
+        else
+            FabRaylibTemplate.Files.AvaloniaHelper.Initialize();
 
         Raylib.InitWindow(800, 800, "FabRaylibTemplate");
         Raylib.SetTargetFPS(60);
 
         logo = Raylib.LoadTexture("Resources/raylib_logo.png");
+
+        if (!OperatingSystem.IsBrowser())
+        {
+            while (!Raylib.WindowShouldClose())
+            {
+                UpdateFrame();
+            }
+            Raylib.CloseWindow();
+        }
     }
 
     [JSExport]

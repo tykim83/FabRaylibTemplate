@@ -1,45 +1,66 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
-    <WasmMainJSPath>main.js</WasmMainJSPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <EnableAggressiveTrimming>true</EnableAggressiveTrimming>
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>full</TrimMode>
-    <RunAOTCompilation>true</RunAOTCompilation>
-    <WasmBuildNative>true</WasmBuildNative>
-    <WasmNativeStrip>true</WasmNativeStrip>
-    <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	
+	<!-- Browser Configuration -->
+	<PropertyGroup Condition="'$(Configuration)'=='Browser'">	
+		<RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+		<WasmMainJSPath>main.js</WasmMainJSPath>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<EnableAggressiveTrimming>true</EnableAggressiveTrimming>
+		<PublishTrimmed>true</PublishTrimmed>
+		<TrimMode>full</TrimMode>
+		<RunAOTCompilation>true</RunAOTCompilation>
+		<WasmBuildNative>true</WasmBuildNative>
+		<WasmNativeStrip>true</WasmNativeStrip>
+		<WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+		<DefineConstants>BROWSER</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Raylib-cs" Version="7.0.1" />
-  </ItemGroup>
+	<!-- Console (Desktop) Configuration -->
+	<PropertyGroup Condition="'$(Configuration)'=='Console'">
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<!-- You can disable AOT, trimming, etc. for faster console builds -->
+		<EnableAggressiveTrimming>false</EnableAggressiveTrimming>
+		<PublishTrimmed>false</PublishTrimmed>
+		<DefineConstants>CONSOLE</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <WasmExtraFilesToDeploy Include="index.html" />
-    <WasmExtraFilesToDeploy Include="main.js" />
-	<WasmExtraFilesToDeploy Include="interop.js" />
-    <NativeFileReference Include="raylib.a" />
-    <WasmFilesToIncludeInFileSystem Include="Resources\**\*.*" TargetPath="Resources\%(RecursiveDir)\%(Filename)%(Extension)" />
-  </ItemGroup>
+	<!-- Package References -->
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Desktop" Version="11.2.4" />
+		<PackageReference Include="Raylib-cs" Version="7.0.1" />
+		<PackageReference Include="Avalonia" Version="11.2.4" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="11.2.4" />
+	</ItemGroup>
 
-  <Choose>
-    <When Condition=" $(Configuration) == 'Debug' ">
-      <PropertyGroup>
-        <WasmEmitSymbolMap>true</WasmEmitSymbolMap>
-        <EmccFlags>-sUSE_GLFW=3 -sVERBOSE=1 -Wbad-function-cast -Wcast-function-type -O2 -g3 -sINITIAL_MEMORY=128MB -sMAXIMUM_MEMORY=2048MB -sALLOW_MEMORY_GROWTH=1 -lexports.js</EmccFlags>
-      </PropertyGroup>
-    </When>
-    <When Condition=" $(Configuration) == 'Release' ">
-      <PropertyGroup>
-        <EmccFlags>-s USE_GLFW=3 -O3 -lexports.js</EmccFlags>
-      </PropertyGroup>
-    </When>
-  </Choose>
+	<!-- Files to deploy for Browser (WASM) configuration -->
+	<ItemGroup Condition="'$(Configuration)'=='Browser'">
+		<WasmExtraFilesToDeploy Include="index.html" />
+		<WasmExtraFilesToDeploy Include="main.js" />
+		<WasmExtraFilesToDeploy Include="interop.js" />
+		<NativeFileReference Include="raylib.a" />
+		<WasmFilesToIncludeInFileSystem Include="Resources\**\*.*" TargetPath="Resources\%(RecursiveDir)\%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<Choose>
+		<When Condition="'$(Configuration)'=='Browser Debug'">
+			<PropertyGroup>
+				<WasmEmitSymbolMap>true</WasmEmitSymbolMap>
+				<EmccFlags>-sUSE_GLFW=3 -sVERBOSE=1 -Wbad-function-cast -Wcast-function-type -O2 -g3 -sINITIAL_MEMORY=128MB -sMAXIMUM_MEMORY=2048MB -sALLOW_MEMORY_GROWTH=1 -lexports.js</EmccFlags>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)'=='Browser Release'">
+			<PropertyGroup>
+				<EmccFlags>-s USE_GLFW=3 -O3 -lexports.js</EmccFlags>
+			</PropertyGroup>
+		</When>
+	</Choose>
+
 </Project>

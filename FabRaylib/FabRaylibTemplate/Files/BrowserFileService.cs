@@ -15,7 +15,7 @@ public partial class BrowserFileService : IFileService
 
     public void DownloadFile(string fileName)
     {
-        byte[] logoBytes = System.IO.File.ReadAllBytes("Resources/raylib_logo.png");
+        byte[] logoBytes = System.IO.File.ReadAllBytes(fileName);
         string base64Data = Convert.ToBase64String(logoBytes);
         DownloadFileInterop("raylib_logo.png", base64Data);
     }
