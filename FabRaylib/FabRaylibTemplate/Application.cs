@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using FabRaylibTemplate.Files;
+using Raylib_cs;
 using System;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
@@ -7,12 +8,7 @@ namespace FabRaylibTemplate;
 
 public partial class Application
 {
-    [JSImport("PickFile", "interop.js")]
-    public static partial Task<JSObject> PickFileAsync();
-
-    [JSImport("DownloadFile", "interop.js")]
-    public static partial void DownloadFile(string fileName, string dataBase64);
-
+    private static readonly IFileService fileService = new BrowserFileService();
 
     private static Texture2D logo;
     private static Texture2D loadedImage;
@@ -33,24 +29,12 @@ public partial class Application
         if (Raylib.IsKeyReleased(KeyboardKey.O))
         {
             Console.WriteLine("Pressed o");
-
-            _ = PickAndLoadImageAsync();
+            _ = PickAndLoadTextureAsync();
         }
 
         if (Raylib.IsKeyReleased(KeyboardKey.D))
         {
-            Console.WriteLine("Pressed d");
-            try
-            {
-                byte[] logoBytes = System.IO.File.ReadAllBytes("Resources/raylib_logo.png");
-                string base64Data = Convert.ToBase64String(logoBytes);
-                DownloadFile("raylib_logo.png", base64Data);
-                Console.WriteLine("Download triggered successfully!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Download error: " + ex.Message);
-            }
+            fileService.DownloadFile("Resources/raylib_logo.png");
         }
 
         Raylib.BeginDrawing();
@@ -70,30 +54,9 @@ public partial class Application
         Raylib.EndDrawing();
     }
 
-    private static async Task PickAndLoadImageAsync()
+    private static async Task PickAndLoadTextureAsync()
     {
-        try
-        {
-            Console.WriteLine("Run async image load");
-            var file = await PickFileAsync();
-            byte[] imageData = file?.GetPropertyAsByteArray("content") ?? Array.Empty<byte>();
-
-            string tempPath = "/temp.png";
-            System.IO.File.WriteAllBytes(tempPath, imageData);
-
-            if (imageLoaded)
-                Raylib.UnloadTexture(loadedImage);
-
-            Image img = Raylib.LoadImage(tempPath);
-            loadedImage = Raylib.LoadTextureFromImage(img);
-            Raylib.UnloadImage(img);
-
-            imageLoaded = true;
-            Console.WriteLine("Image loaded successfully!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("PickAndLoadImageAsync Exception: " + ex.Message);
-        }
+        loadedImage = await fileService.PickFileAsync();
+        imageLoaded = true;
     }
 }
