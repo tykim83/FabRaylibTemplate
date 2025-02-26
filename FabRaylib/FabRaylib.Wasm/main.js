@@ -10,7 +10,7 @@ const exports = await getAssemblyExports(config.mainAssemblyName);
 dotnet.instance.Module['canvas'] = document.getElementById('canvas');
 
 function mainLoop() {
-    exports.FabRaylibTemplate.Application.UpdateFrame();
+    exports.FabRaylib.Template.Program.UpdateFrame();
 
     window.requestAnimationFrame(mainLoop);
 }

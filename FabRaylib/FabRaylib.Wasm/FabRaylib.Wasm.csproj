@@ -5,10 +5,6 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
-	
-	<!-- Browser Configuration -->
-	<PropertyGroup Condition="'$(Configuration)'=='Browser'">	
 		<RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
 		<WasmMainJSPath>main.js</WasmMainJSPath>
 		<InvariantGlobalization>true</InvariantGlobalization>
@@ -21,32 +17,22 @@
 		<WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
 		<DefineConstants>BROWSER</DefineConstants>
 	</PropertyGroup>
-
-	<!-- Console (Desktop) Configuration -->
-	<PropertyGroup Condition="'$(Configuration)'=='Console'">
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-		<InvariantGlobalization>true</InvariantGlobalization>
-		<!-- You can disable AOT, trimming, etc. for faster console builds -->
-		<EnableAggressiveTrimming>false</EnableAggressiveTrimming>
-		<PublishTrimmed>false</PublishTrimmed>
-		<DefineConstants>CONSOLE</DefineConstants>
-	</PropertyGroup>
-
+	
 	<!-- Package References -->
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Desktop" Version="11.2.4" />
 		<PackageReference Include="Raylib-cs" Version="7.0.1" />
-		<PackageReference Include="Avalonia" Version="11.2.4" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="11.2.4" />
 	</ItemGroup>
 
-	<!-- Files to deploy for Browser (WASM) configuration -->
-	<ItemGroup Condition="'$(Configuration)'=='Browser'">
+	<ItemGroup>
 		<WasmExtraFilesToDeploy Include="index.html" />
 		<WasmExtraFilesToDeploy Include="main.js" />
 		<WasmExtraFilesToDeploy Include="interop.js" />
 		<NativeFileReference Include="raylib.a" />
-		<WasmFilesToIncludeInFileSystem Include="Resources\**\*.*" TargetPath="Resources\%(RecursiveDir)\%(Filename)%(Extension)" />
+		<WasmFilesToIncludeInFileSystem Include="..\FabRaylib.App\Resources\**\*.*" TargetPath="Resources\%(RecursiveDir)\%(Filename)%(Extension)" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\FabRaylib.App\FabRaylib.App.csproj" />
 	</ItemGroup>
 
 	<Choose>
@@ -56,7 +42,7 @@
 				<EmccFlags>-sUSE_GLFW=3 -sVERBOSE=1 -Wbad-function-cast -Wcast-function-type -O2 -g3 -sINITIAL_MEMORY=128MB -sMAXIMUM_MEMORY=2048MB -sALLOW_MEMORY_GROWTH=1 -lexports.js</EmccFlags>
 			</PropertyGroup>
 		</When>
-		<When Condition="'$(Configuration)'=='Browser Release'">
+		<When Condition="'$(Configuration)'=='Browser'">
 			<PropertyGroup>
 				<EmccFlags>-s USE_GLFW=3 -O3 -lexports.js</EmccFlags>
 			</PropertyGroup>

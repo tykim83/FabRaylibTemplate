@@ -1,9 +1,9 @@
-﻿using Raylib_cs;
+﻿using FabRaylib.App;
 using System;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 
-namespace FabRaylibTemplate.Files;
+namespace FabRaylib.Template;
 
 public partial class BrowserFileService : IFileService
 {
@@ -20,7 +20,7 @@ public partial class BrowserFileService : IFileService
         DownloadFileInterop("raylib_logo.png", base64Data);
     }
 
-    public async Task<Texture2D> PickFileAsync()
+    public async Task<string> PickFileAsync()
     {
         var file = await PickFileInteropAsync();
         byte[] imageData = file?.GetPropertyAsByteArray("content") ?? Array.Empty<byte>();
@@ -29,10 +29,6 @@ public partial class BrowserFileService : IFileService
         string filePath = "/tmp/" + fileName;
         System.IO.File.WriteAllBytes(filePath, imageData);
 
-        Image img = Raylib.LoadImage(filePath);
-        Texture2D loadedImage = Raylib.LoadTextureFromImage(img);
-        Raylib.UnloadImage(img);
-
-        return loadedImage;
+        return filePath;
     }
 }
