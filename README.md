@@ -47,7 +47,7 @@ dotnet tool install --global dotnet-serve
 And then just call this command to start web server for your build:
 
 ```
-dotnet serve --mime .wasm=application/wasm --mime .js=text/javascript --mime .json=application/json --directory RaylibWasm\bin\Release\net8.0\browser-wasm\AppBundle\
+dotnet serve --mime .wasm=application/wasm --mime .js=text/javascript --mime .json=application/json --directory bin\Debug\net8.0\browser-wasm\AppBundle\
 ```
 
 While server is running you can use publish command to update your files without any need to restart server.

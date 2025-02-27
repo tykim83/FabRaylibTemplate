@@ -35,14 +35,18 @@
 	  <ProjectReference Include="..\FabRaylib.App\FabRaylib.App.csproj" />
 	</ItemGroup>
 
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);CA1416</NoWarn>
+	</PropertyGroup>
+
 	<Choose>
-		<When Condition="'$(Configuration)'=='Browser Debug'">
+		<When Condition="'$(Configuration)'=='Debug'">
 			<PropertyGroup>
 				<WasmEmitSymbolMap>true</WasmEmitSymbolMap>
 				<EmccFlags>-sUSE_GLFW=3 -sVERBOSE=1 -Wbad-function-cast -Wcast-function-type -O2 -g3 -sINITIAL_MEMORY=128MB -sMAXIMUM_MEMORY=2048MB -sALLOW_MEMORY_GROWTH=1 -lexports.js</EmccFlags>
 			</PropertyGroup>
 		</When>
-		<When Condition="'$(Configuration)'=='Browser'">
+		<When Condition="'$(Configuration)'=='Release'">
 			<PropertyGroup>
 				<EmccFlags>-s USE_GLFW=3 -O3 -lexports.js</EmccFlags>
 			</PropertyGroup>

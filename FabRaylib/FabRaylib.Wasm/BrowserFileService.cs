@@ -23,7 +23,7 @@ public partial class BrowserFileService : IFileService
     public async Task<string> PickFileAsync()
     {
         var file = await PickFileInteropAsync();
-        byte[] imageData = file?.GetPropertyAsByteArray("content") ?? Array.Empty<byte>();
+        byte[] imageData = file?.GetPropertyAsByteArray("content") ?? [];
 
         string fileName = file?.GetPropertyAsString("name") ?? "temp.png";
         string filePath = "/tmp/" + fileName;
