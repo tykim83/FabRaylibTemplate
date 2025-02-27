@@ -39,7 +39,7 @@ a native-looking interface.
 To build the desktop version, simply run:
 
 ```
-dotnet build FabRaylib-Desktop
+dotnet build FabRaylib.Desktop
 ```
 
 ### Run
@@ -47,7 +47,7 @@ dotnet build FabRaylib-Desktop
 To execute the desktop version, use:
 
 ```
-dotnet run --project FabRaylib-Desktop
+dotnet run --project FabRaylib.Desktop
 ```
 
 ## FabRaylib-Wasm
@@ -68,7 +68,7 @@ I've followed [RaylibWasm](https://github.com/Kiriller12/RaylibWasm) example pro
 To build the WASM version, run:
 
 ```
-dotnet publish -c Release --project FabRaylib-Wasm
+dotnet publish FabRaylib.Wasm -c Release
 ```
 
 ### Run
@@ -78,7 +78,7 @@ To serve the published WASM files, you can use any web server. Alternatively, yo
 **Start the Web Server**
 
 ```
-dotnet serve --mime .wasm=application/wasm --mime .js=text/javascript --mime .json=application/json --directory FabRaylib-Wasm/bin/Release/net8.0/browser-wasm/AppBundle/
+dotnet serve --mime .wasm=application/wasm --mime .js=text/javascript --mime .json=application/json --directory FabRaylib.Wasm/bin/Release/net8.0/browser-wasm/AppBundle/
 ```
 
 Once the server is running, you can update the files with a new publish command without restarting the server.
