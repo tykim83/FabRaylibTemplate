@@ -9,6 +9,7 @@ public class RaylibApp
     private static Texture2D _logo;
     private static Texture2D _loadedImage;
     private static bool _imageLoaded = false;
+    private static string _logoPath = Path.Combine(AppContext.BaseDirectory, "Resources/raylib_logo.png");
 
     public static void Init(IFileService fileService)
     {
@@ -16,23 +17,16 @@ public class RaylibApp
 
         Raylib.InitWindow(800, 800, "FabRaylib App");
         Raylib.SetTargetFPS(60);
-        var path = Path.Combine(AppContext.BaseDirectory, "Resources/raylib_logo.png");
-        _logo = Raylib.LoadTexture(path);
+        _logo = Raylib.LoadTexture(_logoPath);
     }
 
     public static void UpdateFrame()
     {
         if (Raylib.IsKeyReleased(KeyboardKey.O))
-        {
-            Console.WriteLine("Pressed o");
             _ = PickAndLoadTextureAsync();
-        }
 
         if (Raylib.IsKeyReleased(KeyboardKey.D))
-        {
-            var path = Path.Combine(AppContext.BaseDirectory, "Resources/raylib_logo.png");
-            _fileService?.DownloadFile(path);
-        }
+            _fileService?.DownloadFile(_logoPath);
 
         Raylib.BeginDrawing();
 
@@ -44,9 +38,7 @@ public class RaylibApp
         Raylib.DrawTexture(_logo, 4, 64, Color.White);
 
         if (_imageLoaded)
-        {
             Raylib.DrawTexture(_loadedImage, 200, 300, Color.White);
-        }
 
         Raylib.EndDrawing();
     }
@@ -57,7 +49,8 @@ public class RaylibApp
         Image img = Raylib.LoadImage(filePath);
 
         _loadedImage = Raylib.LoadTextureFromImage(img);
-        Raylib.UnloadImage(img);
         _imageLoaded = true;
+
+        Raylib.UnloadImage(img);
     }
 }
