@@ -13,11 +13,13 @@ public partial class BrowserFileService : IFileService
     [JSImport("DownloadFile", "interop.js")]
     public static partial void DownloadFileInterop(string fileName, string dataBase64);
 
-    public void DownloadFile(string fileName)
+    public Task DownloadFileAsync(string fileName)
     {
         byte[] logoBytes = System.IO.File.ReadAllBytes(fileName);
         string base64Data = Convert.ToBase64String(logoBytes);
         DownloadFileInterop("raylib_logo.png", base64Data);
+
+        return Task.CompletedTask;
     }
 
     public async Task<string> PickFileAsync()

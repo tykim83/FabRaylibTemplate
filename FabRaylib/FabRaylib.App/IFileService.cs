@@ -3,5 +3,5 @@
 public interface IFileService
 {
     Task<string> PickFileAsync();
-    void DownloadFile(string fileName);
+    Task DownloadFileAsync(string fileName);
 }

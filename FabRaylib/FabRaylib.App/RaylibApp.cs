@@ -9,7 +9,7 @@ public class RaylibApp
     private static Texture2D _logo;
     private static Texture2D _loadedImage;
     private static bool _imageLoaded = false;
-    private static string _logoPath = Path.Combine(AppContext.BaseDirectory, "Resources/raylib_logo.png");
+    private static readonly string _logoPath = Path.Combine(AppContext.BaseDirectory, "Resources/raylib_logo.png");
 
     public static void Init(IFileService fileService)
     {
@@ -26,7 +26,7 @@ public class RaylibApp
             _ = PickAndLoadTextureAsync();
 
         if (Raylib.IsKeyReleased(KeyboardKey.D))
-            _fileService?.DownloadFile(_logoPath);
+            _ = NameAndDownloadFileAsync();
 
         Raylib.BeginDrawing();
 
@@ -41,6 +41,11 @@ public class RaylibApp
             Raylib.DrawTexture(_loadedImage, 200, 300, Color.White);
 
         Raylib.EndDrawing();
+    }
+
+    private static async Task NameAndDownloadFileAsync()
+    {
+        await _fileService!.DownloadFileAsync(_logoPath);
     }
 
     private static async Task PickAndLoadTextureAsync()
