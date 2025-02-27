@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabRaylib.Desktop", "FabRaylib.Desktop\FabRaylib.Desktop.csproj", "{6AEB999B-4EF7-4917-BE00-BDDCF1C6AE1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabRaylib.App", "FabRaylib.App\FabRaylib.App.csproj", "{84CD0864-B333-44F4-8951-8B546B567131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabRaylib.Wasm", "FabRaylib.Wasm\FabRaylib.Wasm.csproj", "{6B3CCC7C-30B2-4972-8ED6-07C7EC4CBE91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AEB999B-4EF7-4917-BE00-BDDCF1C6AE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AEB999B-4EF7-4917-BE00-BDDCF1C6AE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AEB999B-4EF7-4917-BE00-BDDCF1C6AE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AEB999B-4EF7-4917-BE00-BDDCF1C6AE1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84CD0864-B333-44F4-8951-8B546B567131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CD0864-B333-44F4-8951-8B546B567131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CD0864-B333-44F4-8951-8B546B567131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CD0864-B333-44F4-8951-8B546B567131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3CCC7C-30B2-4972-8ED6-07C7EC4CBE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3CCC7C-30B2-4972-8ED6-07C7EC4CBE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3CCC7C-30B2-4972-8ED6-07C7EC4CBE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3CCC7C-30B2-4972-8ED6-07C7EC4CBE91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
